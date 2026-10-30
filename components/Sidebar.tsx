@@ -123,8 +123,8 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
         items: [
           { href: "/admissions", label: "Admissions CRM", icon: UserPlus, roles: ["admin", "staff"] },
           { href: "/students", label: "Students Directory", icon: Users, roles: ["admin", "faculty", "staff"] },
-          { href: "/timetable", label: "Timetable & Flights", icon: Calendar, roles: ["admin", "faculty", "student"] },
-          { href: "/attendance", label: "Attendance Tracker", icon: CheckSquare, roles: ["admin", "faculty", "staff", "student"] },
+          { href: "/timetable", label: "Timetable & Flights", icon: Calendar, roles: ["admin", "faculty", "student", "parent"] },
+          { href: "/attendance", label: "Attendance Tracker", icon: CheckSquare, roles: ["admin", "faculty", "staff", "student", "parent"] },
           { href: "/courses", label: "Courses Catalog", icon: BookOpen, roles: ["admin", "faculty"] },
           { href: "/course-management", label: "Course Management", icon: Sliders, roles: ["admin"] },
           { href: "/enrollments", label: "Enrollments", icon: FileText, roles: ["admin"] },
@@ -146,7 +146,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
         title: "Finance & Accounts",
         icon: CreditCard,
         items: [
-          { href: "/fees", label: "Fee Management", icon: CreditCard, roles: ["admin", "staff", "student"] },
+          { href: "/fees", label: "Fee Management", icon: CreditCard, roles: ["admin", "staff", "student", "parent"] },
           { href: "/finance", label: "Finance & Ledger", icon: TrendingUp, roles: ["admin"] },
         ],
       },
@@ -421,6 +421,29 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
             </div>
           );
         })}
+
+        {/* Academy Support Hotline Widget */}
+        {!isCollapsed && (
+          <div className="pt-3 px-1">
+            <div className="p-3 bg-gradient-to-br from-slate-900 via-blue-950/40 to-slate-900 rounded-xl border border-slate-800/80 text-xs space-y-1.5 shadow-2xs">
+              <div className="flex items-center justify-between text-[10px] font-bold uppercase tracking-wider text-blue-400">
+                <span className="flex items-center gap-1">
+                  <ShieldCheck className="w-3 h-3 text-blue-400" />
+                  Flight Operations
+                </span>
+                <span className="text-emerald-400 flex items-center gap-1">
+                  <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                  Online
+                </span>
+              </div>
+              <p className="text-[11px] text-slate-300 font-medium">Academy Duty Officer</p>
+              <div className="flex items-center justify-between pt-1 border-t border-slate-800/60 text-[10px] text-slate-400 font-mono">
+                <span>+91 11 2462 2495</span>
+                <span className="text-blue-400 font-sans font-semibold">support@irik.aero</span>
+              </div>
+            </div>
+          </div>
+        )}
       </nav>
 
       {/* Footer Profile / Logout Card */}

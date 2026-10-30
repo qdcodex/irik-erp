@@ -171,7 +171,7 @@ export default function NotificationsPage() {
 
   return (
     <AppLayout>
-      <div className="space-y-6 max-w-6xl mx-auto pb-12">
+      <div className="space-y-6 pb-12">
         {/* Header Banner */}
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 bg-gradient-to-r from-slate-900 via-sky-950 to-slate-900 p-6 rounded-2xl border border-slate-800 text-white shadow-xl">
           <div>

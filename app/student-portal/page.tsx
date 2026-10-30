@@ -51,7 +51,7 @@ export default function StudentPortalPage() {
 
   return (
     <AppLayout>
-      <div className="max-w-5xl mx-auto space-y-6">
+      <div className="space-y-6">
         {/* Banner */}
         <div className="bg-gradient-to-r from-slate-900 via-slate-800 to-indigo-950 rounded-2xl p-6 text-white shadow-sm border border-slate-800">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
