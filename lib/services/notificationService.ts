@@ -1,4 +1,5 @@
-import { Notification, NotificationPreference, NotificationTemplate } from "@/lib/models";
+import { Notification, NotificationPreference, NotificationTemplate, User } from "@/lib/models";
+import { emailService } from "./emailService";
 
 export interface NotificationPayload {
   userId: string;
@@ -163,27 +164,20 @@ class NotificationService {
     template?: any
   ): Promise<boolean> {
     try {
-      // Get user email from database (implement based on your User model)
-      const user = require("../models").User.findById(userId);
+      const user = await User.findById(userId);
       if (!user || !user.email) {
         console.warn(`No email found for user ${userId}`);
         return false;
       }
 
       const emailContent = template?.emailTemplate || message;
+      const res = await emailService.sendEmail({
+        to: user.email,
+        subject: title,
+        html: `<p>${emailContent}</p>`,
+      });
 
-      // TODO: Integrate with SendGrid API
-      // const sgMail = require('@sendgrid/mail');
-      // sgMail.setApiKey(process.env.SENDGRID_API_KEY);
-      // await sgMail.send({
-      //   to: user.email,
-      //   from: process.env.SENDGRID_FROM_EMAIL,
-      //   subject: title,
-      //   html: emailContent,
-      // });
-
-      console.log(`Email notification sent to ${user.email}: ${title}`);
-      return true;
+      return res.success;
     } catch (error) {
       console.error("Error sending email notification:", error);
       return false;

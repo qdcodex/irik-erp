@@ -14,22 +14,22 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get("limit") || "50");
     const unreadOnly = searchParams.get("unreadOnly") === "true";
 
-    if (!userId) {
-      return Response.json({ error: "userId is required" }, { status: 400 });
+    let query: any = {};
+    if (userId) {
+      query.userId = userId;
     }
-
-    let query: any = { userId };
     if (unreadOnly) {
       query["status.inApp"] = { $ne: "read" };
     }
 
     const notifications = await Notification.find(query)
+      .populate("userId", "fullName email role username")
       .sort({ createdAt: -1 })
       .limit(limit)
       .lean();
 
     const unreadCount = await Notification.countDocuments({
-      userId,
+      ...query,
       "status.inApp": { $ne: "read" },
     });
 

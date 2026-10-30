@@ -33,13 +33,19 @@ export default function LoginPage() {
     try {
       const success = await login(username, password);
       if (success) {
-        // Smart redirection based on role
-        if (username === "parent") {
+        // Smart dynamic redirection based on user role
+        const stored = typeof window !== "undefined" ? localStorage.getItem("auth_user") : null;
+        const loggedUser = stored ? JSON.parse(stored) : null;
+        const role = loggedUser?.role;
+
+        if (role === "parent") {
           router.push("/parent-portal");
-        } else if (username === "rajesh" || username === "priya") {
+        } else if (role === "student") {
           router.push("/student-portal");
-        } else if (username === "dr_amit" || username === "dr_neha") {
+        } else if (role === "faculty") {
           router.push("/instructor-portal");
+        } else if (role === "staff") {
+          router.push("/staff");
         } else {
           router.push("/");
         }
