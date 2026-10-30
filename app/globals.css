@@ -36,19 +36,6 @@ body {
     padding: 12px;
   }
 
-  /* Improve sidebar on small screens */
-  aside {
-    position: fixed;
-    left: -100%;
-    top: 0;
-    width: 80%;
-    max-width: 300px;
-    height: 100vh;
-    background: white;
-    transition: left 0.3s ease-out;
-    z-index: 50;
-  }
-
   /* Table responsiveness */
   table {
     display: block;

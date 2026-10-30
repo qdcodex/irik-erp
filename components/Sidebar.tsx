@@ -59,7 +59,12 @@ type NavGroup = {
   items: MenuItem[];
 };
 
-export default function Sidebar() {
+interface SidebarProps {
+  mobileOpen?: boolean;
+  onMobileClose?: () => void;
+}
+
+export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarProps) {
   const pathname = usePathname();
   const router = useRouter();
   const { user, logout } = useAuth();
@@ -224,53 +229,75 @@ export default function Sidebar() {
   }, [navGroups, user, searchQuery]);
 
   return (
-    <aside
-      className={`hidden md:flex flex-col h-screen select-none shrink-0 bg-slate-950 text-slate-200 border-r border-slate-800/80 transition-all duration-300 ease-in-out z-40 ${
-        isCollapsed ? "w-20" : "w-72"
-      }`}
-    >
-      {/* Top Header / Brand */}
-      <div className="p-4 border-b border-slate-800/80 bg-slate-950/80 flex items-center justify-between gap-3">
-        {!isCollapsed ? (
-          <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 ring-1 ring-white/20 shrink-0">
-              <Plane className="w-5 h-5 text-white transform -rotate-45" />
-            </div>
-            <div className="min-w-0">
-              <div className="flex items-center gap-1.5">
-                <h2 className="text-sm font-extrabold tracking-tight text-white uppercase truncate">
-                  IRIK Aviation
-                </h2>
-                <span className="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-1.5 py-0.2 rounded border border-blue-500/30">
-                  ERP
-                </span>
+    <>
+      {/* Mobile Backdrop Overlay */}
+      {mobileOpen && (
+        <div
+          className="fixed inset-0 bg-slate-950/70 backdrop-blur-xs z-40 md:hidden animate-in fade-in duration-200"
+          onClick={onMobileClose}
+        />
+      )}
+
+      <aside
+        className={`fixed md:static inset-y-0 left-0 z-50 md:z-40 flex flex-col h-screen select-none shrink-0 bg-slate-950 text-slate-200 border-r border-slate-800/80 transition-all duration-300 ease-in-out ${
+          mobileOpen ? "translate-x-0 shadow-2xl" : "-translate-x-full md:translate-x-0"
+        } ${isCollapsed ? "md:w-20" : "md:w-72"} w-72`}
+      >
+        {/* Top Header / Brand */}
+        <div className="p-4 border-b border-slate-800/80 bg-slate-950/80 flex items-center justify-between gap-3">
+          {!isCollapsed ? (
+            <div className="flex items-center gap-3 min-w-0">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-blue-500/20 ring-1 ring-white/20 shrink-0">
+                <Plane className="w-5 h-5 text-white transform -rotate-45" />
               </div>
-              <p className="text-[11px] text-slate-400 truncate">DGCA Academy</p>
+              <div className="min-w-0">
+                <div className="flex items-center gap-1.5">
+                  <h2 className="text-sm font-extrabold tracking-tight text-white uppercase truncate">
+                    IRIK Aviation
+                  </h2>
+                  <span className="bg-blue-500/20 text-blue-400 text-[10px] font-bold px-1.5 py-0.2 rounded border border-blue-500/30">
+                    ERP
+                  </span>
+                </div>
+                <p className="text-[11px] text-slate-400 truncate">DGCA Academy</p>
+              </div>
             </div>
-          </div>
-        ) : (
-          <div className="mx-auto">
-            <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md ring-1 ring-white/20">
-              <Plane className="w-4 h-4 text-white transform -rotate-45" />
-            </div>
-          </div>
-        )}
-
-        {/* Collapse / Expand Toggle Button */}
-        <button
-          onClick={toggleSidebarCollapse}
-          className="p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg transition shrink-0"
-          title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
-        >
-          {isCollapsed ? (
-            <PanelLeftOpen className="w-4 h-4 text-slate-300" />
           ) : (
-            <PanelLeftClose className="w-4 h-4 text-slate-400" />
+            <div className="mx-auto">
+              <div className="w-9 h-9 rounded-xl bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white shadow-md ring-1 ring-white/20">
+                <Plane className="w-4 h-4 text-white transform -rotate-45" />
+              </div>
+            </div>
           )}
-        </button>
-      </div>
 
-      {/* Search Bar (Only when expanded) */}
+          <div className="flex items-center gap-1">
+            {/* Collapse / Expand Toggle Button (Desktop) */}
+            <button
+              onClick={toggleSidebarCollapse}
+              className="hidden md:flex p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg transition shrink-0"
+              title={isCollapsed ? "Expand sidebar" : "Collapse sidebar"}
+            >
+              {isCollapsed ? (
+                <PanelLeftOpen className="w-4 h-4 text-slate-300" />
+              ) : (
+                <PanelLeftClose className="w-4 h-4 text-slate-400" />
+              )}
+            </button>
+
+            {/* Mobile Close Button */}
+            {onMobileClose && (
+              <button
+                onClick={onMobileClose}
+                className="md:hidden p-1.5 text-slate-400 hover:text-white hover:bg-slate-800/80 rounded-lg transition"
+                title="Close menu"
+              >
+                <X className="w-5 h-5" />
+              </button>
+            )}
+          </div>
+        </div>
+
+        {/* Search Bar (Only when expanded) */}
       {!isCollapsed && (
         <div className="px-3.5 pt-3 pb-1">
           <div className="relative">
@@ -337,6 +364,7 @@ export default function Sidebar() {
                       <li key={item.href} className="relative group/item">
                         <Link
                           href={item.href}
+                          onClick={onMobileClose}
                           className={`flex items-center ${
                             isCollapsed ? "justify-center p-2.5" : "justify-between px-3 py-2"
                           } rounded-xl text-xs font-medium transition-all ${
@@ -445,5 +473,6 @@ export default function Sidebar() {
         </div>
       )}
     </aside>
+    </>
   );
 }

@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import MobileBottomNav from "./MobileBottomNav";
 import NotificationCenter from "./NotificationCenter";
-import { ShieldCheck, Plane } from "lucide-react";
+import { ShieldCheck, Plane, Menu, User } from "lucide-react";
 
 type AppShellProps = {
   children: React.ReactNode;
@@ -17,6 +17,7 @@ export default function AppShell({ children }: AppShellProps) {
   const router = useRouter();
   const pathname = usePathname();
   const [isReady, setIsReady] = useState(false);
+  const [mobileSidebarOpen, setMobileSidebarOpen] = useState(false);
 
   const isPublicPage = pathname === "/login" || pathname === "/unauthorized";
 
@@ -50,18 +51,32 @@ export default function AppShell({ children }: AppShellProps) {
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-800">
-      {/* Persistent Desktop Sidebar - Hidden on mobile view */}
-      <Sidebar />
+      {/* Persistent Desktop Sidebar & Mobile Slide-in Drawer */}
+      <Sidebar
+        mobileOpen={mobileSidebarOpen}
+        onMobileClose={() => setMobileSidebarOpen(false)}
+      />
 
       {/* Main Content Area */}
       <div className="flex-1 flex flex-col min-w-0 h-screen overflow-hidden">
         {/* Top Header */}
         <header className="bg-white border-b border-slate-200/80 shrink-0 z-30 shadow-2xs">
-          <div className="px-4 sm:px-6 py-3 flex items-center justify-between">
+          <div className="px-4 sm:px-6 py-2.5 flex items-center justify-between">
             <div className="flex items-center gap-2.5">
-              <div className="md:hidden w-8 h-8 rounded-lg bg-blue-600 flex items-center justify-center text-white shadow-sm shrink-0">
+              {/* Mobile / Tablet Hamburger Toggle */}
+              <button
+                onClick={() => setMobileSidebarOpen(true)}
+                className="md:hidden p-1.5 -ml-1 text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-lg transition"
+                title="Open navigation menu"
+                aria-label="Open navigation menu"
+              >
+                <Menu className="w-5 h-5" />
+              </button>
+
+              <div className="hidden sm:flex md:hidden w-8 h-8 rounded-lg bg-blue-600 items-center justify-center text-white shadow-sm shrink-0">
                 <Plane className="w-4 h-4 transform -rotate-45" />
               </div>
+
               <div>
                 <h1 className="text-sm sm:text-base font-bold text-slate-900 tracking-tight leading-tight">
                   IRIK Aviation Institute
@@ -70,13 +85,35 @@ export default function AppShell({ children }: AppShellProps) {
                   {user?.role} Portal
                 </p>
               </div>
-              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded border border-emerald-200 ml-2">
+
+              <span className="hidden sm:inline-flex items-center gap-1 text-[10px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200 ml-2">
                 <ShieldCheck className="w-3 h-3 text-emerald-600" />
                 DGCA Certified
               </span>
             </div>
-            <div className="flex items-center gap-3">
+
+            {/* Right Header: Notification Center & User Profile Avatar */}
+            <div className="flex items-center gap-2 sm:gap-3">
               <NotificationCenter />
+
+              {user && (
+                <div className="flex items-center gap-2 pl-2 border-l border-slate-200">
+                  <div
+                    className="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 text-white flex items-center justify-center font-bold text-xs shadow-sm ring-2 ring-white cursor-pointer"
+                    title={`${user.fullName || user.username} (${user.role})`}
+                  >
+                    {user.fullName ? user.fullName.charAt(0).toUpperCase() : "U"}
+                  </div>
+                  <div className="hidden lg:block text-left">
+                    <p className="text-xs font-bold text-slate-900 leading-none truncate max-w-[120px]">
+                      {user.fullName || user.username}
+                    </p>
+                    <p className="text-[10px] text-slate-500 capitalize leading-tight mt-0.5">
+                      {user.role}
+                    </p>
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </header>
