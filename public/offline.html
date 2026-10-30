@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>IRIK ERP - Offline</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .container {
+      background: white;
+      border-radius: 12px;
+      padding: 40px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+    }
+
+    .icon {
+      font-size: 64px;
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      color: #1f2937;
+      font-size: 28px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      color: #6b7280;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+
+    .status {
+      background: #fee2e2;
+      border: 2px solid #fca5a5;
+      border-radius: 8px;
+      padding: 15px;
+      margin: 20px 0;
+      color: #991b1b;
+      font-weight: 600;
+    }
+
+    .tips {
+      text-align: left;
+      background: #f3f4f6;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+
+    .tips h3 {
+      color: #1f2937;
+      font-size: 14px;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tips ul {
+      list-style: none;
+      font-size: 14px;
+      color: #6b7280;
+      line-height: 1.8;
+    }
+
+    .tips li {
+      margin-bottom: 8px;
+    }
+
+    .tips li:before {
+      content: "✓ ";
+      color: #10b981;
+      font-weight: bold;
+      margin-right: 8px;
+    }
+
+    .button {
+      background: #667eea;
+      color: white;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s;
+      margin-top: 20px;
+      width: 100%;
+    }
+
+    .button:hover {
+      background: #5568d3;
+    }
+
+    .button:active {
+      transform: scale(0.98);
+    }
+
+    .footer {
+      margin-top: 30px;
+      padding-top: 20px;
+      border-top: 1px solid #e5e7eb;
+      font-size: 12px;
+      color: #9ca3af;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="icon">📡</div>
+
+    <h1>You're Offline</h1>
+    <p>IRIK ERP requires an internet connection to function. Please check your connection and try again.</p>
+
+    <div class="status">
+      ⚠️ No internet connection detected
+    </div>
+
+    <div class="tips">
+      <h3>What You Can Do:</h3>
+      <ul>
+        <li>Check your WiFi or mobile data connection</li>
+        <li>Try moving to an area with better signal</li>
+        <li>Restart your device or router</li>
+        <li>Cached pages may still be available when reconnected</li>
+      </ul>
+    </div>
+
+    <button class="button" onclick="location.reload()">
+      🔄 Try Again
+    </button>
+
+    <div class="footer">
+      <p>IRIK College ERP v1.0 | Offline Mode</p>
+      <p>Connection will be restored automatically when available</p>
+    </div>
+  </div>
+
+  <script>
+    // Check connection status periodically
+    window.addEventListener('online', () => {
+      document.querySelector('h1').textContent = 'Back Online!';
+      document.querySelector('.status').textContent = '✅ Connection restored';
+      document.querySelector('.status').style.background = '#dcfce7';
+      document.querySelector('.status').style.borderColor = '#86efac';
+      document.querySelector('.status').style.color = '#15803d';
+
+      setTimeout(() => {
+        location.reload();
+      }, 2000);
+    });
+  </script>
+</body>
+</html>
