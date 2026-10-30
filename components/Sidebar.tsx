@@ -295,7 +295,7 @@ export default function Sidebar() {
       )}
 
       {/* Navigation Group Items */}
-      <nav className="flex-1 px-2.5 py-3 overflow-y-auto space-y-4 scrollbar-thin scrollbar-thumb-slate-800 scrollbar-track-transparent">
+      <nav className="flex-1 px-2.5 py-3 overflow-y-auto space-y-4 sidebar-scrollbar">
         {filteredGroups.map((group) => {
           const isGroupCollapsed = !searchQuery && !!collapsedGroups[group.id];
           const hasActiveChild = group.items.some((item) => item.href === pathname);

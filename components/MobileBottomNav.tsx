@@ -284,7 +284,7 @@ export default function MobileBottomNav() {
             </div>
 
             {/* Categorized Links Scroll Area */}
-            <div className="flex-1 overflow-y-auto p-4 space-y-4 scrollbar-thin scrollbar-thumb-slate-800">
+            <div className="flex-1 overflow-y-auto p-4 space-y-4 sidebar-scrollbar">
               {filteredGroups.map((group) => (
                 <div key={group.title} className="space-y-1.5">
                   <h4 className="text-[10px] font-bold uppercase tracking-wider text-slate-500 px-2">
