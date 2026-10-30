@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { AlumniRecord } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function AlumniPage() {
   const [alumni, setAlumni] = useState<AlumniRecord[]>(store.getAlumniRecords());
@@ -61,18 +62,18 @@ export default function AlumniPage() {
                 Graduate airline career tracking (IndiGo, Air India, Emirates, SpiceJet), mentorship & job referrals
               </p>
             </div>
-            <div className="flex items-center space-x-2">
-              <span className="text-xs text-gray-300">Filter Year:</span>
-              <select
+            <div className="flex items-center space-x-2 min-w-[170px]">
+              <SearchableSelect
                 value={filterBatch}
-                onChange={(e) => setFilterBatch(e.target.value)}
-                className="bg-white/10 text-white border border-white/20 rounded-lg px-3 py-1.5 text-xs font-semibold focus:outline-none"
-              >
-                <option value="all" className="bg-gray-900">All Batches</option>
-                <option value="2024" className="bg-gray-900">2024 Batch</option>
-                <option value="2023" className="bg-gray-900">2023 Batch</option>
-                <option value="2022" className="bg-gray-900">2022 Batch</option>
-              </select>
+                onChange={(val) => setFilterBatch(val)}
+                options={[
+                  { value: "all", label: "All Batches" },
+                  { value: "2024", label: "2024 Batch" },
+                  { value: "2023", label: "2023 Batch" },
+                  { value: "2022", label: "2022 Batch" },
+                ]}
+                size="sm"
+              />
             </div>
           </div>
         </div>

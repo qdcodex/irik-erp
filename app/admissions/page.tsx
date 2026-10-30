@@ -5,6 +5,7 @@ import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Admission } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   Users,
   UserCheck,
@@ -539,35 +540,32 @@ export default function AdmissionsPage() {
                   />
                 </div>
 
-                <div className="relative min-w-[190px]">
-                  <Filter className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-                  <select
+                <div className="min-w-[210px]">
+                  <SearchableSelect
                     value={courseFilter}
-                    onChange={(e) => setCourseFilter(e.target.value)}
-                    className="w-full pl-8 pr-8 py-2 text-xs font-medium bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition appearance-none cursor-pointer"
-                  >
-                    <option value="all">All Aviation Courses</option>
-                    {AVIATION_COURSES.map((c) => (
-                      <option key={c} value={c}>
-                        {c}
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setCourseFilter(val)}
+                    options={[
+                      { value: "all", label: "All Aviation Courses" },
+                      ...AVIATION_COURSES.map((c) => ({ value: c, label: c })),
+                    ]}
+                    size="sm"
+                  />
                 </div>
 
-                <div className="relative min-w-[150px]">
-                  <select
+                <div className="min-w-[160px]">
+                  <SearchableSelect
                     value={statusFilter}
-                    onChange={(e) => setStatusFilter(e.target.value)}
-                    className="w-full px-3 py-2 text-xs font-medium bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition appearance-none cursor-pointer"
-                  >
-                    <option value="all">All Statuses</option>
-                    <option value="pending">Pending Review</option>
-                    <option value="under_review">Under Review</option>
-                    <option value="medical_verified">Medical Verified</option>
-                    <option value="approved">Approved & Enrolled</option>
-                    <option value="rejected">Rejected</option>
-                  </select>
+                    onChange={(val) => setStatusFilter(val)}
+                    options={[
+                      { value: "all", label: "All Statuses" },
+                      { value: "pending", label: "Pending Review" },
+                      { value: "under_review", label: "Under Review" },
+                      { value: "medical_verified", label: "Medical Verified" },
+                      { value: "approved", label: "Approved & Enrolled" },
+                      { value: "rejected", label: "Rejected" },
+                    ]}
+                    size="sm"
+                  />
                 </div>
               </div>
 
@@ -798,18 +796,13 @@ export default function AdmissionsPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Gender
-                    </label>
-                    <select
+                    <SearchableSelect
+                      label="Gender"
                       value={formData.gender}
-                      onChange={(e) => setFormData({ ...formData, gender: e.target.value as any })}
-                      className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                      <option value="Male">Male</option>
-                      <option value="Female">Female</option>
-                      <option value="Other">Other</option>
-                    </select>
+                      onChange={(val) => setFormData({ ...formData, gender: val as any })}
+                      options={["Male", "Female", "Other"]}
+                      size="sm"
+                    />
                   </div>
                 </div>
               </div>
@@ -822,18 +815,13 @@ export default function AdmissionsPage() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Aviation Program / Cadre *
-                    </label>
-                    <select
+                    <SearchableSelect
+                      label="Aviation Program / Cadre *"
                       value={formData.appliedCourse}
-                      onChange={(e) => setFormData({ ...formData, appliedCourse: e.target.value })}
-                      className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                    >
-                      {AVIATION_COURSES.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
-                    </select>
+                      onChange={(val) => setFormData({ ...formData, appliedCourse: val })}
+                      options={AVIATION_COURSES}
+                      size="sm"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">
@@ -872,34 +860,28 @@ export default function AdmissionsPage() {
                 </h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      DGCA Medical Certificate Status
-                    </label>
-                    <select
+                    <SearchableSelect
+                      label="DGCA Medical Certificate Status"
                       value={formData.medicalFitnessStatus}
-                      onChange={(e) => setFormData({ ...formData, medicalFitnessStatus: e.target.value as any })}
-                      className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                      <option value="Class 1 Cleared">Class 1 Cleared (IAM / AFCME)</option>
-                      <option value="Class 2 Cleared">Class 2 Cleared (DGCA Empanelled Doctor)</option>
-                      <option value="Pending">Medical Appointment Pending</option>
-                      <option value="Failed">Failed / Medically Unfit</option>
-                      <option value="Not Applicable">Not Applicable (Ground Studies)</option>
-                    </select>
+                      onChange={(val) => setFormData({ ...formData, medicalFitnessStatus: val as any })}
+                      options={[
+                        { value: "Class 1 Cleared", label: "Class 1 Cleared (IAM / AFCME)" },
+                        { value: "Class 2 Cleared", label: "Class 2 Cleared (DGCA Empanelled Doctor)" },
+                        { value: "Pending", label: "Medical Appointment Pending" },
+                        { value: "Failed", label: "Failed / Medically Unfit" },
+                        { value: "Not Applicable", label: "Not Applicable (Ground Studies)" }
+                      ]}
+                      size="sm"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">
-                      Assigned Admissions Counselor
-                    </label>
-                    <select
+                    <SearchableSelect
+                      label="Assigned Admissions Counselor"
                       value={formData.counselor}
-                      onChange={(e) => setFormData({ ...formData, counselor: e.target.value })}
-                      className="w-full px-3 py-2 text-xs border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                      {COUNSELORS.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
-                    </select>
+                      onChange={(val) => setFormData({ ...formData, counselor: val })}
+                      options={COUNSELORS}
+                      size="sm"
+                    />
                   </div>
                 </div>
 
@@ -996,16 +978,13 @@ export default function AdmissionsPage() {
 
               <div className="space-y-3.5">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Intended Course</label>
-                  <select
+                  <SearchableSelect
+                    label="Intended Course"
                     value={auditForm.course}
-                    onChange={(e) => setAuditForm({ ...auditForm, course: e.target.value })}
-                    className="w-full p-2.5 text-xs border border-slate-200 rounded-lg bg-slate-50 font-medium"
-                  >
-                    {AVIATION_COURSES.map((c) => (
-                      <option key={c} value={c}>{c}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setAuditForm({ ...auditForm, course: val })}
+                    options={AVIATION_COURSES}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="grid grid-cols-2 gap-3">
@@ -1034,18 +1013,13 @@ export default function AdmissionsPage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Medical Fitness Assessment</label>
-                  <select
+                  <SearchableSelect
+                    label="Medical Fitness Assessment"
                     value={auditForm.medicalStatus}
-                    onChange={(e) => setAuditForm({ ...auditForm, medicalStatus: e.target.value })}
-                    className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                  >
-                    <option value="Class 1 Cleared">Class 1 Cleared</option>
-                    <option value="Class 2 Cleared">Class 2 Cleared</option>
-                    <option value="Pending">Pending Appointment</option>
-                    <option value="Failed">Failed / Disqualified</option>
-                    <option value="Not Applicable">Not Applicable</option>
-                  </select>
+                    onChange={(val) => setAuditForm({ ...auditForm, medicalStatus: val })}
+                    options={["Class 1 Cleared", "Class 2 Cleared", "Pending", "Failed", "Not Applicable"]}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="p-3 bg-slate-50 rounded-lg border border-slate-200 flex items-center justify-between">
@@ -1390,30 +1364,28 @@ export default function AdmissionsPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Course</label>
-                    <select
+                    <SearchableSelect
+                      label="Course"
                       value={editingCandidate.appliedCourse}
-                      onChange={(e) => setEditingCandidate({ ...editingCandidate, appliedCourse: e.target.value })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs"
-                    >
-                      {AVIATION_COURSES.map((c) => (
-                        <option key={c} value={c}>{c}</option>
-                      ))}
-                    </select>
+                      onChange={(val) => setEditingCandidate({ ...editingCandidate, appliedCourse: val })}
+                      options={AVIATION_COURSES}
+                      size="sm"
+                    />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Status</label>
-                    <select
+                    <SearchableSelect
+                      label="Status"
                       value={editingCandidate.status}
-                      onChange={(e) => setEditingCandidate({ ...editingCandidate, status: e.target.value as any })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs"
-                    >
-                      <option value="pending">Pending</option>
-                      <option value="under_review">Under Review</option>
-                      <option value="medical_verified">Medical Verified</option>
-                      <option value="approved">Approved</option>
-                      <option value="rejected">Rejected</option>
-                    </select>
+                      onChange={(val) => setEditingCandidate({ ...editingCandidate, status: val as any })}
+                      options={[
+                        { value: "pending", label: "Pending" },
+                        { value: "under_review", label: "Under Review" },
+                        { value: "medical_verified", label: "Medical Verified" },
+                        { value: "approved", label: "Approved" },
+                        { value: "rejected", label: "Rejected" }
+                      ]}
+                      size="sm"
+                    />
                   </div>
                 </div>
 
@@ -1430,18 +1402,13 @@ export default function AdmissionsPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Medical Fitness</label>
-                    <select
+                    <SearchableSelect
+                      label="Medical Fitness"
                       value={editingCandidate.medicalFitnessStatus || "Pending"}
-                      onChange={(e) => setEditingCandidate({ ...editingCandidate, medicalFitnessStatus: e.target.value as any })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs"
-                    >
-                      <option value="Class 1 Cleared">Class 1 Cleared</option>
-                      <option value="Class 2 Cleared">Class 2 Cleared</option>
-                      <option value="Pending">Pending</option>
-                      <option value="Failed">Failed</option>
-                      <option value="Not Applicable">Not Applicable</option>
-                    </select>
+                      onChange={(val) => setEditingCandidate({ ...editingCandidate, medicalFitnessStatus: val as any })}
+                      options={["Class 1 Cleared", "Class 2 Cleared", "Pending", "Failed", "Not Applicable"]}
+                      size="sm"
+                    />
                   </div>
                 </div>
 

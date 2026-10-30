@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Asset, MaintenanceLog } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function AssetsPage() {
   const [activeTab, setActiveTab] = useState<"fleet" | "maintenance" | "log_hours">("fleet");
@@ -225,17 +226,17 @@ export default function AssetsPage() {
               <p className="text-xs text-gray-500 mb-4">Log AME service inspection or simulator repair</p>
               <form onSubmit={handleLogSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Asset</label>
-                  <select
+                  <SearchableSelect
+                    label="Asset"
                     value={newLog.assetName}
-                    onChange={(e) => setNewLog({ ...newLog, assetName: e.target.value })}
-                    className="w-full border rounded-lg p-2 text-sm"
-                  >
-                    <option value="Cessna 172 Skyhawk (VT-IRK)">Cessna 172 Skyhawk (VT-IRK)</option>
-                    <option value="Piper PA-28 Archer (VT-IRA)">Piper PA-28 Archer (VT-IRA)</option>
-                    <option value="Redbird FMX Multi-Engine Simulator (SIM-01)">Redbird FMX Sim (SIM-01)</option>
-                    <option value="ALSIM ALX FNPT II Simulator (SIM-02)">ALSIM ALX Sim (SIM-02)</option>
-                  </select>
+                    onChange={(val) => setNewLog({ ...newLog, assetName: val })}
+                    options={[
+                      "Cessna 172 Skyhawk (VT-IRK)",
+                      "Piper PA-28 Archer (VT-IRA)",
+                      "Redbird FMX Multi-Engine Simulator (SIM-01)",
+                      "ALSIM ALX FNPT II Simulator (SIM-02)",
+                    ]}
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Service Description</label>
@@ -309,18 +310,16 @@ export default function AssetsPage() {
             </p>
             <form onSubmit={handleAddHours} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Select Aircraft / Simulator</label>
-                <select
+                <SearchableSelect
+                  label="Select Aircraft / Simulator"
                   value={selectedAssetId}
-                  onChange={(e) => setSelectedAssetId(e.target.value)}
-                  className="w-full border rounded-lg p-2.5 text-sm"
-                >
-                  {assets.map((a) => (
-                    <option key={a.id} value={a.id}>
-                      {a.name} ({a.registrationNumber}) — Current: {a.totalHours} hrs
-                    </option>
-                  ))}
-                </select>
+                  onChange={(val) => setSelectedAssetId(val)}
+                  options={assets.map((a) => ({
+                    value: a.id,
+                    label: `${a.name} (${a.registrationNumber})`,
+                    sublabel: `Current: ${a.totalHours} hrs · ${a.type}`,
+                  }))}
+                />
               </div>
               <div>
                 <label className="block text-xs font-medium text-gray-700 mb-1">Hours Flown / Trained Today</label>

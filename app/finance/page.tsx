@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { FinanceTransaction, Budget } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function FinancePage() {
   const [activeTab, setActiveTab] = useState<"ledger" | "budgets" | "new_tx">("ledger");
@@ -258,31 +259,31 @@ export default function FinancePage() {
             <form onSubmit={handleTxSubmit} className="space-y-4">
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Transaction Type</label>
-                  <select
+                  <SearchableSelect
+                    label="Transaction Type"
                     value={newTx.type}
-                    onChange={(e) => setNewTx({ ...newTx, type: e.target.value as "income" | "expense" })}
-                    className="w-full border rounded-lg p-2.5 text-sm font-semibold"
-                  >
-                    <option value="income">↓ Income (Credit)</option>
-                    <option value="expense">↑ Expense (Debit)</option>
-                  </select>
+                    onChange={(val) => setNewTx({ ...newTx, type: val as "income" | "expense" })}
+                    options={[
+                      { value: "income", label: "↓ Income (Credit)" },
+                      { value: "expense", label: "↑ Expense (Debit)" },
+                    ]}
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
-                  <select
+                  <SearchableSelect
+                    label="Category"
                     value={newTx.category}
-                    onChange={(e) => setNewTx({ ...newTx, category: e.target.value })}
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="Tuition Fees">Tuition Fees</option>
-                    <option value="Simulator Training Fees">Simulator Training Fees</option>
-                    <option value="Aviation Fuel">Aviation Fuel (Avgas / Jet A-1)</option>
-                    <option value="Aircraft Maintenance">Aircraft Maintenance & Spares</option>
-                    <option value="Staff Payroll">Staff Payroll</option>
-                    <option value="DGCA Regulatory Fees">DGCA Regulatory & Audit Fees</option>
-                    <option value="Hostel & Amenities">Hostel & Amenities</option>
-                  </select>
+                    onChange={(val) => setNewTx({ ...newTx, category: val })}
+                    options={[
+                      "Tuition Fees",
+                      "Simulator Training Fees",
+                      "Aviation Fuel",
+                      "Aircraft Maintenance",
+                      "Staff Payroll",
+                      "DGCA Regulatory Fees",
+                      "Hostel & Amenities",
+                    ]}
+                  />
                 </div>
               </div>
 
@@ -312,33 +313,33 @@ export default function FinancePage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Department</label>
-                  <select
+                  <SearchableSelect
+                    label="Department"
                     value={newTx.department}
-                    onChange={(e) => setNewTx({ ...newTx, department: e.target.value })}
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="Flight Operations">Flight Operations</option>
-                    <option value="Academic">Academic</option>
-                    <option value="Maintenance">Maintenance & Fleet</option>
-                    <option value="Administration">Administration</option>
-                    <option value="Hostel">Hostel & Campus</option>
-                  </select>
+                    onChange={(val) => setNewTx({ ...newTx, department: val })}
+                    options={[
+                      "Flight Operations",
+                      "Academic",
+                      "Maintenance",
+                      "Administration",
+                      "Hostel",
+                    ]}
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Payment Method</label>
-                  <select
+                  <SearchableSelect
+                    label="Payment Method"
                     value={newTx.paymentMethod}
-                    onChange={(e) =>
-                      setNewTx({ ...newTx, paymentMethod: e.target.value as FinanceTransaction["paymentMethod"] })
+                    onChange={(val) =>
+                      setNewTx({ ...newTx, paymentMethod: val as FinanceTransaction["paymentMethod"] })
                     }
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="bank_transfer">Bank Transfer (NEFT/RTGS)</option>
-                    <option value="upi">UPI / QR Payment</option>
-                    <option value="cheque">Cheque</option>
-                    <option value="cash">Cash Voucher</option>
-                  </select>
+                    options={[
+                      { value: "bank_transfer", label: "Bank Transfer (NEFT/RTGS)" },
+                      { value: "upi", label: "UPI / QR Payment" },
+                      { value: "cheque", label: "Cheque" },
+                      { value: "cash", label: "Cash Voucher" },
+                    ]}
+                  />
                 </div>
               </div>
 

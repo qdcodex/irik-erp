@@ -65,42 +65,24 @@ export default function EnrollmentsPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Student *
-                </label>
-                <select
-                  name="studentId"
+                <SearchableSelect
+                  label="Student *"
+                  options={students.map((s) => ({ value: s.id, label: `${s.name} (${s.rollNo})` }))}
                   value={formData.studentId}
-                  onChange={handleChange}
+                  onChange={(val) => setFormData({ ...formData, studentId: val })}
+                  placeholder="Search and select student..."
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select Student</option>
-                  {students.map((s) => (
-                    <option key={s.id} value={s.id}>
-                      {s.name} ({s.rollNo})
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Course *
-                </label>
-                <select
-                  name="courseId"
+                <SearchableSelect
+                  label="Course *"
+                  options={courses.map((c) => ({ value: c.id, label: `${c.name} (${c.code})` }))}
                   value={formData.courseId}
-                  onChange={handleChange}
+                  onChange={(val) => setFormData({ ...formData, courseId: val })}
+                  placeholder="Search and select course..."
                   required
-                  className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-                >
-                  <option value="">Select Course</option>
-                  {courses.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name} ({c.code})
-                    </option>
-                  ))}
-                </select>
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-1">

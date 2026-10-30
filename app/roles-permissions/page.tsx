@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { CustomRole, RolePermission } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 const ALL_MODULES = [
   "Admissions",
@@ -128,17 +129,13 @@ export default function RolesPermissionsPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-[11px] font-medium text-gray-700 mb-1">Department</label>
-                  <select
+                  <SearchableSelect
+                    label="Department"
                     value={newRoleDepartment}
-                    onChange={(e) => setNewRoleDepartment(e.target.value)}
-                    className="w-full border rounded p-1.5 text-xs"
-                  >
-                    <option value="Operations">Operations</option>
-                    <option value="Academics">Academics</option>
-                    <option value="Finance">Finance</option>
-                    <option value="Security">Security</option>
-                  </select>
+                    onChange={(val) => setNewRoleDepartment(val)}
+                    options={["Operations", "Academics", "Finance", "Security"]}
+                    size="sm"
+                  />
                 </div>
                 <button
                   type="submit"

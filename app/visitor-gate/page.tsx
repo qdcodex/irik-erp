@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { VisitorLog } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function VisitorGatePage() {
   const [visitors, setVisitors] = useState<VisitorLog[]>(store.getVisitorLogs());
@@ -83,18 +84,21 @@ export default function VisitorGatePage() {
                   <h3 className="font-semibold text-gray-900">Live Campus & Airside Entry Log</h3>
                   <p className="text-xs text-gray-500">Security clearance records and host staff verification</p>
                 </div>
-                <select
-                  value={filterArea}
-                  onChange={(e) => setFilterArea(e.target.value)}
-                  className="border rounded-lg px-3 py-1.5 text-xs focus:outline-none"
-                >
-                  <option value="all">All Zones</option>
-                  <option value="Flight Hangar">Flight Hangar (Restricted)</option>
-                  <option value="Apron Zone">Apron Zone (Restricted)</option>
-                  <option value="Simulator Complex">Simulator Complex</option>
-                  <option value="Admin Office">Admin Office</option>
-                  <option value="General Campus">General Campus</option>
-                </select>
+                <div className="min-w-[190px]">
+                  <SearchableSelect
+                    value={filterArea}
+                    onChange={(val) => setFilterArea(val)}
+                    options={[
+                      { value: "all", label: "All Zones" },
+                      { value: "Flight Hangar", label: "Flight Hangar (Restricted)" },
+                      { value: "Apron Zone", label: "Apron Zone (Restricted)" },
+                      { value: "Simulator Complex", label: "Simulator Complex" },
+                      { value: "Admin Office", label: "Admin Office" },
+                      { value: "General Campus", label: "General Campus" },
+                    ]}
+                    size="sm"
+                  />
+                </div>
               </div>
 
               <div className="overflow-x-auto">
@@ -185,34 +189,34 @@ export default function VisitorGatePage() {
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Area / Security Zone</label>
-                <select
+                <SearchableSelect
+                  label="Area / Security Zone"
                   value={newVisitor.areaAccessed}
-                  onChange={(e) =>
-                    setNewVisitor({ ...newVisitor, areaAccessed: e.target.value as VisitorLog["areaAccessed"] })
+                  onChange={(val) =>
+                    setNewVisitor({ ...newVisitor, areaAccessed: val as VisitorLog["areaAccessed"] })
                   }
-                  className="w-full border rounded-lg p-2 text-sm font-semibold"
-                >
-                  <option value="General Campus">General Campus / Reception</option>
-                  <option value="Admin Office">Admin & Accounts Office</option>
-                  <option value="Simulator Complex">Simulator Complex</option>
-                  <option value="Flight Hangar">Flight Hangar (Restricted Airside)</option>
-                  <option value="Apron Zone">Apron Zone (High Security Airside)</option>
-                </select>
+                  options={[
+                    { value: "General Campus", label: "General Campus / Reception" },
+                    { value: "Admin Office", label: "Admin & Accounts Office" },
+                    { value: "Simulator Complex", label: "Simulator Complex" },
+                    { value: "Flight Hangar", label: "Flight Hangar (Restricted Airside)" },
+                    { value: "Apron Zone", label: "Apron Zone (High Security Airside)" },
+                  ]}
+                />
               </div>
 
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Host Staff Member</label>
-                <select
+                <SearchableSelect
+                  label="Host Staff Member"
                   value={newVisitor.hostStaffName}
-                  onChange={(e) => setNewVisitor({ ...newVisitor, hostStaffName: e.target.value })}
-                  className="w-full border rounded-lg p-2 text-sm"
-                >
-                  <option value="Dr. Amit Patel">Dr. Amit Patel (Aviation Mgmt)</option>
-                  <option value="Capt. Vikram Malhotra">Capt. Vikram Malhotra (Chief Flight Instructor)</option>
-                  <option value="Prof. Rajesh Kumar">Prof. Rajesh Kumar (Academic Dean)</option>
-                  <option value="Admissions & Accounts Office">Admissions & Accounts Office</option>
-                </select>
+                  onChange={(val) => setNewVisitor({ ...newVisitor, hostStaffName: val })}
+                  options={[
+                    { value: "Dr. Amit Patel", label: "Dr. Amit Patel (Aviation Mgmt)" },
+                    { value: "Capt. Vikram Malhotra", label: "Capt. Vikram Malhotra (Chief Flight Instructor)" },
+                    { value: "Prof. Rajesh Kumar", label: "Prof. Rajesh Kumar (Academic Dean)" },
+                    { value: "Admissions & Accounts Office", label: "Admissions & Accounts Office" },
+                  ]}
+                />
               </div>
 
               <div>

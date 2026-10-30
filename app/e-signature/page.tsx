@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { SignedDocument } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function ESignaturePage() {
   const [docs, setDocs] = useState<SignedDocument[]>(store.getSignedDocuments());
@@ -108,22 +109,22 @@ export default function ESignaturePage() {
             <p className="text-xs text-gray-500 mb-4">Execute digital verification with legal timestamp and IP capture</p>
             <form onSubmit={handleSignDocument} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Document Template</label>
-                <select
+                <SearchableSelect
+                  label="Document Template"
                   value={newDocType}
-                  onChange={(e) => {
-                    const type = e.target.value as SignedDocument["documentType"];
+                  onChange={(val) => {
+                    const type = val as SignedDocument["documentType"];
                     setNewDocType(type);
                     if (type === "flight_medical_clearance") setNewDocTitle("DGCA Class 1 Medical Clearance & Flight Liability Waiver");
                     else if (type === "indemnity_consent") setNewDocTitle("Flight Simulator & Solo Flight Indemnity Agreement");
                     else setNewDocTitle("IRIK Academic Honor Code & Aviation Safety Contract");
                   }}
-                  className="w-full border rounded-lg p-2 text-sm"
-                >
-                  <option value="admission_contract">Admission Contract & Honor Code</option>
-                  <option value="flight_medical_clearance">DGCA Medical Clearance & Liability Waiver</option>
-                  <option value="indemnity_consent">Solo Flight Indemnity & Parent Consent</option>
-                </select>
+                  options={[
+                    { value: "admission_contract", label: "Admission Contract & Honor Code" },
+                    { value: "flight_medical_clearance", label: "DGCA Medical Clearance & Liability Waiver" },
+                    { value: "indemnity_consent", label: "Solo Flight Indemnity & Parent Consent" },
+                  ]}
+                />
               </div>
 
               <div>

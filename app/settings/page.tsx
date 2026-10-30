@@ -12,6 +12,7 @@ import {
   FeeCategoryHead,
 } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   Building2,
   Bell,
@@ -1159,17 +1160,18 @@ export default function SettingsPage() {
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Course Type</label>
-                      <select
+                      <SearchableSelect
+                        label="Course Type"
                         value={newSubject.courseType}
-                        onChange={(e) => setNewSubject({ ...newSubject, courseType: e.target.value as any })}
-                        className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                      >
-                        <option value="Theory">Ground Theory</option>
-                        <option value="Simulator Lab">Simulator Lab</option>
-                        <option value="Flight Practical">Flight Practical</option>
-                        <option value="Cabin Safety">Cabin Safety</option>
-                      </select>
+                        onChange={(val) => setNewSubject({ ...newSubject, courseType: val as any })}
+                        options={[
+                          { value: "Theory", label: "Ground Theory" },
+                          { value: "Simulator Lab", label: "Simulator Lab" },
+                          { value: "Flight Practical", label: "Flight Practical" },
+                          { value: "Cabin Safety", label: "Cabin Safety" }
+                        ]}
+                        size="sm"
+                      />
                     </div>
                   </div>
 
@@ -1242,18 +1244,13 @@ export default function SettingsPage() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Facility Type</label>
-                      <select
+                      <SearchableSelect
+                        label="Facility Type"
                         value={newVenue.type}
-                        onChange={(e) => setNewVenue({ ...newVenue, type: e.target.value as any })}
-                        className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                      >
-                        <option value="Lecture Hall">Lecture Hall</option>
-                        <option value="Flight Simulator Bay">Flight Simulator Bay</option>
-                        <option value="Apron / Flight Line">Apron / Flight Line</option>
-                        <option value="Cabin Mockup Hall">Cabin Mockup Hall</option>
-                        <option value="Avionics Lab">Avionics Lab</option>
-                      </select>
+                        onChange={(val) => setNewVenue({ ...newVenue, type: val as any })}
+                        options={["Lecture Hall", "Flight Simulator Bay", "Apron / Flight Line", "Cabin Mockup Hall", "Avionics Lab"]}
+                        size="sm"
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">Building Location</label>
@@ -1416,17 +1413,13 @@ export default function SettingsPage() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Billing Frequency</label>
-                      <select
+                      <SearchableSelect
+                        label="Billing Frequency"
                         value={newFeeHead.frequency}
-                        onChange={(e) => setNewFeeHead({ ...newFeeHead, frequency: e.target.value as any })}
-                        className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                      >
-                        <option value="Per Semester">Per Semester</option>
-                        <option value="One-Time">One-Time</option>
-                        <option value="Per Flying Hour">Per Flying Hour</option>
-                        <option value="Annual">Annual</option>
-                      </select>
+                        onChange={(val) => setNewFeeHead({ ...newFeeHead, frequency: val as any })}
+                        options={["Per Semester", "One-Time", "Per Flying Hour", "Annual"]}
+                        size="sm"
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">Applicable Program</label>
@@ -1593,18 +1586,13 @@ export default function SettingsPage() {
 
                   <div className="grid grid-cols-2 gap-3">
                     <div>
-                      <label className="block text-xs font-semibold text-slate-700 mb-1">Facility Type</label>
-                      <select
+                      <SearchableSelect
+                        label="Facility Type"
                         value={editingItem.type}
-                        onChange={(e) => setEditingItem({ ...editingItem, type: e.target.value as any })}
-                        className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                      >
-                        <option value="Lecture Hall">Lecture Hall</option>
-                        <option value="Flight Simulator Bay">Flight Simulator Bay</option>
-                        <option value="Apron / Flight Line">Apron / Flight Line</option>
-                        <option value="Cabin Mockup Hall">Cabin Mockup Hall</option>
-                        <option value="Avionics Lab">Avionics Lab</option>
-                      </select>
+                        onChange={(val) => setEditingItem({ ...editingItem, type: val as any })}
+                        options={["Lecture Hall", "Flight Simulator Bay", "Apron / Flight Line", "Cabin Mockup Hall", "Avionics Lab"]}
+                        size="sm"
+                      />
                     </div>
                     <div>
                       <label className="block text-xs font-semibold text-slate-700 mb-1">Building</label>

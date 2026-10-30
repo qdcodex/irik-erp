@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { FeedbackTicket } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function FeedbackPage() {
   const [tickets, setTickets] = useState<FeedbackTicket[]>(store.getFeedbackTickets());
@@ -202,35 +203,35 @@ export default function FeedbackPage() {
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Category</label>
-                  <select
+                  <SearchableSelect
+                    label="Category"
                     value={newTicket.category}
-                    onChange={(e) =>
-                      setNewTicket({ ...newTicket, category: e.target.value as FeedbackTicket["category"] })
+                    onChange={(val) =>
+                      setNewTicket({ ...newTicket, category: val as FeedbackTicket["category"] })
                     }
-                    className="w-full border rounded-lg p-2 text-sm"
-                  >
-                    <option value="simulator">Flight Simulator</option>
-                    <option value="flight_training">Flight Training Ops</option>
-                    <option value="facility">Campus Facility</option>
-                    <option value="academics">Academics & LMS</option>
-                    <option value="hostel">Hostel & Food</option>
-                    <option value="other">Other Inquiry</option>
-                  </select>
+                    options={[
+                      { value: "simulator", label: "Flight Simulator" },
+                      { value: "flight_training", label: "Flight Training Ops" },
+                      { value: "facility", label: "Campus Facility" },
+                      { value: "academics", label: "Academics & LMS" },
+                      { value: "hostel", label: "Hostel & Food" },
+                      { value: "other", label: "Other Inquiry" },
+                    ]}
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Priority</label>
-                  <select
+                  <SearchableSelect
+                    label="Priority"
                     value={newTicket.priority}
-                    onChange={(e) =>
-                      setNewTicket({ ...newTicket, priority: e.target.value as FeedbackTicket["priority"] })
+                    onChange={(val) =>
+                      setNewTicket({ ...newTicket, priority: val as FeedbackTicket["priority"] })
                     }
-                    className="w-full border rounded-lg p-2 text-sm"
-                  >
-                    <option value="low">Low</option>
-                    <option value="medium">Medium</option>
-                    <option value="high">High (Urgent)</option>
-                  </select>
+                    options={[
+                      { value: "low", label: "Low" },
+                      { value: "medium", label: "Medium" },
+                      { value: "high", label: "High (Urgent)" },
+                    ]}
+                  />
                 </div>
               </div>
 

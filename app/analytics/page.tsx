@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   TrendingUp,
   BarChart3,
@@ -102,15 +103,18 @@ export default function AnalyticsDashboardPage() {
           </div>
 
           <div className="flex flex-wrap items-center gap-3">
-            <select
-              value={selectedTerm}
-              onChange={(e) => setSelectedTerm(e.target.value)}
-              className="bg-slate-800/90 border border-slate-700 text-white text-xs rounded-lg px-3 py-2 outline-none focus:border-indigo-500"
-            >
-              <option value="Academic Year 2026-2027">AY 2026-2027 (Current)</option>
-              <option value="Term 1 - Monsoon 2026">Term 1 - Monsoon 2026</option>
-              <option value="AY 2025-2026">AY 2025-2026 (Historical)</option>
-            </select>
+            <div className="min-w-[200px]">
+              <SearchableSelect
+                value={selectedTerm}
+                onChange={(val) => setSelectedTerm(val)}
+                options={[
+                  "Academic Year 2026-2027",
+                  "Term 1 - Monsoon 2026",
+                  "AY 2025-2026",
+                ]}
+                size="sm"
+              />
+            </div>
 
             <button
               onClick={() => window.print()}

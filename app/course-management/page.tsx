@@ -5,6 +5,7 @@ import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Course } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import Link from "next/link";
 import {
   BookOpen,
@@ -358,21 +359,21 @@ export default function CourseManagementPage() {
             </div>
 
             <div className="flex items-center gap-2.5">
-              <div className="flex items-center gap-1.5">
-                <span className="text-xs font-semibold text-slate-500">Semester:</span>
-                <select
+              <div className="min-w-[150px]">
+                <SearchableSelect
                   value={selectedSemester}
-                  onChange={(e) => setSelectedSemester(e.target.value)}
-                  className="text-xs py-1.5 px-2.5 bg-slate-50 border border-slate-200 rounded-lg text-slate-700 font-medium focus:outline-none"
-                >
-                  <option value="All">All Semesters</option>
-                  <option value="1">Semester 1</option>
-                  <option value="2">Semester 2</option>
-                  <option value="3">Semester 3</option>
-                  <option value="4">Semester 4</option>
-                  <option value="5">Semester 5</option>
-                  <option value="6">Semester 6</option>
-                </select>
+                  onChange={(val) => setSelectedSemester(val)}
+                  options={[
+                    { value: "All", label: "All Semesters" },
+                    { value: "1", label: "Semester 1" },
+                    { value: "2", label: "Semester 2" },
+                    { value: "3", label: "Semester 3" },
+                    { value: "4", label: "Semester 4" },
+                    { value: "5", label: "Semester 5" },
+                    { value: "6", label: "Semester 6" },
+                  ]}
+                  size="sm"
+                />
               </div>
 
               {/* View Mode Toggle */}
@@ -747,17 +748,18 @@ export default function CourseManagementPage() {
                     />
                   </div>
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Instruction Type</label>
-                    <select
+                    <SearchableSelect
+                      label="Instruction Type"
                       value={formData.courseType}
-                      onChange={(e) => setFormData({ ...formData, courseType: e.target.value as any })}
-                      className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                    >
-                      <option value="Theory">Ground Theory</option>
-                      <option value="Simulator Lab">Simulator Lab</option>
-                      <option value="Flight Practical">Flight Line Practical</option>
-                      <option value="Cabin Safety">Cabin Safety Mockup</option>
-                    </select>
+                      onChange={(val) => setFormData({ ...formData, courseType: val as any })}
+                      options={[
+                        { value: "Theory", label: "Ground Theory" },
+                        { value: "Simulator Lab", label: "Simulator Lab" },
+                        { value: "Flight Practical", label: "Flight Line Practical" },
+                        { value: "Cabin Safety", label: "Cabin Safety Mockup" },
+                      ]}
+                      size="sm"
+                    />
                   </div>
                 </div>
 

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { LMSContent, Quiz, QuizSubmission } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function LMSPage() {
   const [activeTab, setActiveTab] = useState<"materials" | "quizzes" | "submissions" | "upload">("materials");
@@ -372,30 +373,30 @@ export default function LMSPage() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Course</label>
-                  <select
+                  <SearchableSelect
+                    label="Course"
                     value={newMaterial.courseName}
-                    onChange={(e) => setNewMaterial({ ...newMaterial, courseName: e.target.value })}
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="Pilot Training">Pilot Training (CPL)</option>
-                    <option value="BBA Aviation">BBA Aviation Management</option>
-                    <option value="BSc Aviation">BSc Aviation Technology</option>
-                    <option value="Cabin Crew">Cabin Crew Training</option>
-                  </select>
+                    onChange={(val) => setNewMaterial({ ...newMaterial, courseName: val })}
+                    options={[
+                      { value: "Pilot Training", label: "Pilot Training (CPL)" },
+                      { value: "BBA Aviation", label: "BBA Aviation Management" },
+                      { value: "BSc Aviation", label: "BSc Aviation Technology" },
+                      { value: "Cabin Crew", label: "Cabin Crew Training" },
+                    ]}
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Material Type</label>
-                  <select
+                  <SearchableSelect
+                    label="Material Type"
                     value={newMaterial.type}
-                    onChange={(e) => setNewMaterial({ ...newMaterial, type: e.target.value as LMSContent["type"] })}
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="manual">Manual / Handbook (PDF)</option>
-                    <option value="notes">Lecture Notes</option>
-                    <option value="video">Video Recording (MP4)</option>
-                    <option value="checklist">Cockpit Checklist</option>
-                  </select>
+                    onChange={(val) => setNewMaterial({ ...newMaterial, type: val as LMSContent["type"] })}
+                    options={[
+                      { value: "manual", label: "Manual / Handbook (PDF)" },
+                      { value: "notes", label: "Lecture Notes" },
+                      { value: "video", label: "Video Recording (MP4)" },
+                      { value: "checklist", label: "Cockpit Checklist" },
+                    ]}
+                  />
                 </div>
               </div>
 

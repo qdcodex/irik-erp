@@ -5,6 +5,7 @@ import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Attendance, Student } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   Calendar,
   CheckCircle2,
@@ -539,18 +540,19 @@ export default function AttendancePage() {
             <QrCode className="w-12 h-12 text-blue-600 mx-auto" />
             <h3 className="text-base font-bold text-slate-900">Airside & Aerodrome Gate Check-In Kiosk</h3>
             <p className="text-xs text-slate-500">Scan cadet RFID card or barcode to log immediate flight line entry</p>
-            <div className="flex gap-2">
-              <select
-                value={kioskStudentId}
-                onChange={(e) => setKioskStudentId(e.target.value)}
-                className="flex-1 p-2 text-xs border border-slate-200 rounded-lg bg-slate-50 font-medium"
-              >
-                {allStudents.map((s) => (
-                  <option key={s.id} value={s.id}>
-                    {s.name} ({s.rollNo})
-                  </option>
-                ))}
-              </select>
+            <div className="flex gap-2 items-center">
+              <div className="flex-1 text-left">
+                <SearchableSelect
+                  value={kioskStudentId}
+                  onChange={(val) => setKioskStudentId(val)}
+                  options={allStudents.map((s) => ({
+                    value: s.id,
+                    label: `${s.name} (${s.rollNo})`,
+                    sublabel: s.course,
+                  }))}
+                  size="sm"
+                />
+              </div>
               <button
                 onClick={() => {
                   const s = allStudents.find((st) => st.id === kioskStudentId);

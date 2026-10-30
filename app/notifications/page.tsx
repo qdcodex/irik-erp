@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import { AppLayout } from "@/components/AppLayout";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   Bell,
   Mail,
@@ -336,32 +337,34 @@ export default function NotificationsPage() {
 
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Category</label>
-                    <select
+                    <SearchableSelect
+                      label="Category"
                       value={broadcastForm.type}
-                      onChange={(e) => setBroadcastForm({ ...broadcastForm, type: e.target.value })}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg outline-none focus:border-sky-500"
-                    >
-                      <option value="class_reminder">Class / Flight Training</option>
-                      <option value="timetable_change">Timetable Change</option>
-                      <option value="fee_alert">Fee & Invoicing Notice</option>
-                      <option value="admission_status">Admission Announcement</option>
-                      <option value="exam_result">Exam Results & Academic</option>
-                    </select>
+                      onChange={(val) => setBroadcastForm({ ...broadcastForm, type: val })}
+                      options={[
+                        { value: "class_reminder", label: "Class / Flight Training" },
+                        { value: "timetable_change", label: "Timetable Change" },
+                        { value: "fee_alert", label: "Fee & Invoicing Notice" },
+                        { value: "admission_status", label: "Admission Announcement" },
+                        { value: "exam_result", label: "Exam Results & Academic" },
+                      ]}
+                      size="sm"
+                    />
                   </div>
 
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Target Audience</label>
-                    <select
+                    <SearchableSelect
+                      label="Target Audience"
                       value={broadcastForm.targetAudience}
-                      onChange={(e) => setBroadcastForm({ ...broadcastForm, targetAudience: e.target.value })}
-                      className="w-full text-xs px-3 py-2 border border-slate-300 rounded-lg outline-none focus:border-sky-500"
-                    >
-                      <option value="all">Entire Academy (All)</option>
-                      <option value="students">Students Only</option>
-                      <option value="faculty">Faculty & Flight Instructors</option>
-                      <option value="parents">Parents / Guardians</option>
-                    </select>
+                      onChange={(val) => setBroadcastForm({ ...broadcastForm, targetAudience: val })}
+                      options={[
+                        { value: "all", label: "Entire Academy (All)" },
+                        { value: "students", label: "Students Only" },
+                        { value: "faculty", label: "Faculty & Flight Instructors" },
+                        { value: "parents", label: "Parents / Guardians" },
+                      ]}
+                      size="sm"
+                    />
                   </div>
                 </div>
 

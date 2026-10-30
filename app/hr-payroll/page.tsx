@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Payroll, LeaveRequest } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function HRPayrollPage() {
   const [activeTab, setActiveTab] = useState<"payroll" | "leave" | "generate">("payroll");
@@ -284,32 +285,32 @@ export default function HRPayrollPage() {
               <p className="text-xs text-gray-500 mb-4">Record new leave for flight instructors or ground staff</p>
               <form onSubmit={handleLeaveSubmit} className="space-y-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Staff Member</label>
-                  <select
+                  <SearchableSelect
+                    label="Staff Member"
                     value={newLeave.staffName}
-                    onChange={(e) => setNewLeave({ ...newLeave, staffName: e.target.value })}
-                    className="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="Dr. Amit Patel">Dr. Amit Patel (Aviation Mgmt)</option>
-                    <option value="Capt. Vikram Malhotra">Capt. Vikram Malhotra (Flight Instructor)</option>
-                    <option value="Dr. Neha Sharma">Dr. Neha Sharma (Aviation Tech)</option>
-                    <option value="Ms. Kavya Shah">Ms. Kavya Shah (Cabin Crew)</option>
-                  </select>
+                    onChange={(val) => setNewLeave({ ...newLeave, staffName: val })}
+                    options={[
+                      { value: "Dr. Amit Patel", label: "Dr. Amit Patel (Aviation Mgmt)" },
+                      { value: "Capt. Vikram Malhotra", label: "Capt. Vikram Malhotra (Flight Instructor)" },
+                      { value: "Dr. Neha Sharma", label: "Dr. Neha Sharma (Aviation Tech)" },
+                      { value: "Ms. Kavya Shah", label: "Ms. Kavya Shah (Cabin Crew)" },
+                    ]}
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Leave Category</label>
-                  <select
+                  <SearchableSelect
+                    label="Leave Category"
                     value={newLeave.leaveType}
-                    onChange={(e) =>
-                      setNewLeave({ ...newLeave, leaveType: e.target.value as LeaveRequest["leaveType"] })
+                    onChange={(val) =>
+                      setNewLeave({ ...newLeave, leaveType: val as LeaveRequest["leaveType"] })
                     }
-                    className="w-full border rounded-lg p-2 text-sm focus:ring-2 focus:ring-blue-500"
-                  >
-                    <option value="Casual Leave">Casual Leave</option>
-                    <option value="Sick Leave">Sick Leave</option>
-                    <option value="Flight Medical Leave">Flight Medical Leave (DGCA)</option>
-                    <option value="Earned Leave">Earned Leave</option>
-                  </select>
+                    options={[
+                      "Casual Leave",
+                      "Sick Leave",
+                      "Flight Medical Leave",
+                      "Earned Leave",
+                    ]}
+                  />
                 </div>
                 <div className="grid grid-cols-2 gap-2">
                   <div>
@@ -374,33 +375,28 @@ export default function HRPayrollPage() {
             </p>
             <form onSubmit={handlePayrollSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Staff Member</label>
-                <select
+                <SearchableSelect
+                  label="Staff Member"
                   value={newPayroll.staffName}
-                  onChange={(e) => setNewPayroll({ ...newPayroll, staffName: e.target.value })}
-                  className="w-full border rounded-lg p-2.5 text-sm"
-                >
-                  <option value="Prof. Rajesh Kumar">Prof. Rajesh Kumar (Dean)</option>
-                  <option value="Dr. Amit Patel">Dr. Amit Patel (Aviation Mgmt)</option>
-                  <option value="Dr. Neha Sharma">Dr. Neha Sharma (Aeronautics)</option>
-                  <option value="Capt. Vikram Malhotra">Capt. Vikram Malhotra (Chief Flight Instructor)</option>
-                  <option value="Ms. Kavya Shah">Ms. Kavya Shah (Cabin Crew Trainer)</option>
-                </select>
+                  onChange={(val) => setNewPayroll({ ...newPayroll, staffName: val })}
+                  options={[
+                    { value: "Prof. Rajesh Kumar", label: "Prof. Rajesh Kumar (Dean)" },
+                    { value: "Dr. Amit Patel", label: "Dr. Amit Patel (Aviation Mgmt)" },
+                    { value: "Dr. Neha Sharma", label: "Dr. Neha Sharma (Aeronautics)" },
+                    { value: "Capt. Vikram Malhotra", label: "Capt. Vikram Malhotra (Chief Flight Instructor)" },
+                    { value: "Ms. Kavya Shah", label: "Ms. Kavya Shah (Cabin Crew Trainer)" },
+                  ]}
+                />
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-medium text-gray-700 mb-1">Month</label>
-                  <select
+                  <SearchableSelect
+                    label="Month"
                     value={newPayroll.month}
-                    onChange={(e) => setNewPayroll({ ...newPayroll, month: e.target.value })}
-                    className="w-full border rounded-lg p-2.5 text-sm"
-                  >
-                    <option value="August">August</option>
-                    <option value="September">September</option>
-                    <option value="October">October</option>
-                    <option value="November">November</option>
-                  </select>
+                    onChange={(val) => setNewPayroll({ ...newPayroll, month: val })}
+                    options={["August", "September", "October", "November"]}
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-medium text-gray-700 mb-1">Year</label>

@@ -4,6 +4,7 @@ import { useState } from "react";
 import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { InstructorEvaluation } from "@/lib/types";
+import SearchableSelect from "@/components/SearchableSelect";
 
 export default function EvaluationsPage() {
   const [evaluations, setEvaluations] = useState<InstructorEvaluation[]>(store.getInstructorEvaluations());
@@ -134,21 +135,20 @@ export default function EvaluationsPage() {
             <p className="text-xs text-gray-500 mb-4">Rate your flight or ground school instructor</p>
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs font-medium text-gray-700 mb-1">Instructor</label>
-                <select
+                <SearchableSelect
+                  label="Instructor"
                   value={newEval.instructorName}
-                  onChange={(e) => {
-                    const name = e.target.value;
+                  onChange={(name) => {
                     const course = name.includes("Vikram") ? "Pilot Training" : "BBA Aviation";
                     setNewEval({ ...newEval, instructorName: name, courseName: course });
                   }}
-                  className="w-full border rounded-lg p-2 text-sm"
-                >
-                  <option value="Dr. Amit Patel">Dr. Amit Patel (Aviation Mgmt)</option>
-                  <option value="Capt. Vikram Malhotra">Capt. Vikram Malhotra (Flight Instructor)</option>
-                  <option value="Dr. Neha Sharma">Dr. Neha Sharma (Aerodynamics)</option>
-                  <option value="Ms. Kavya Shah">Ms. Kavya Shah (Cabin Crew)</option>
-                </select>
+                  options={[
+                    { value: "Dr. Amit Patel", label: "Dr. Amit Patel (Aviation Mgmt)" },
+                    { value: "Capt. Vikram Malhotra", label: "Capt. Vikram Malhotra (Flight Instructor)" },
+                    { value: "Dr. Neha Sharma", label: "Dr. Neha Sharma (Aerodynamics)" },
+                    { value: "Ms. Kavya Shah", label: "Ms. Kavya Shah (Cabin Crew)" },
+                  ]}
+                />
               </div>
 
               <div className="space-y-3">

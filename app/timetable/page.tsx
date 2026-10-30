@@ -5,6 +5,7 @@ import { store } from "@/lib/store";
 import { AppLayout } from "@/components/AppLayout";
 import { Timetable } from "@/lib/types";
 import { useAuth } from "@/lib/auth-context";
+import SearchableSelect from "@/components/SearchableSelect";
 import {
   Calendar,
   Clock,
@@ -378,20 +379,16 @@ export default function TimetablePage() {
               />
             </div>
 
-            <div className="relative min-w-[180px]">
-              <Filter className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none" />
-              <select
+            <div className="min-w-[200px]">
+              <SearchableSelect
                 value={selectedProgram}
-                onChange={(e) => setSelectedProgram(e.target.value)}
-                className="w-full pl-8 pr-8 py-2 text-xs font-medium bg-slate-50 hover:bg-slate-100/80 focus:bg-white border border-slate-200 rounded-lg text-slate-700 focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 transition appearance-none cursor-pointer"
-              >
-                <option value="all">All Programs & Cadres</option>
-                {programs.map((p) => (
-                  <option key={p} value={p}>
-                    {p}
-                  </option>
-                ))}
-              </select>
+                onChange={(val) => setSelectedProgram(val)}
+                options={[
+                  { value: "all", label: "All Programs & Cadres" },
+                  ...programs.map((p) => ({ value: p, label: p })),
+                ]}
+                size="sm"
+              />
             </div>
           </div>
 
@@ -888,17 +885,13 @@ export default function TimetablePage() {
               <form onSubmit={handleUpdateSlot} className="space-y-3.5">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Program</label>
-                    <select
+                    <SearchableSelect
+                      label="Program"
                       value={editingSlot.program}
-                      onChange={(e) => setEditingSlot({ ...editingSlot, program: e.target.value })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                      <option value="BBA Aviation">BBA Aviation</option>
-                      <option value="Pilot Training">Pilot Training</option>
-                      <option value="Cabin Crew">Cabin Crew</option>
-                      <option value="BSc Aviation">BSc Aviation</option>
-                    </select>
+                      onChange={(val) => setEditingSlot({ ...editingSlot, program: val })}
+                      options={["BBA Aviation", "Pilot Training", "Cabin Crew", "BSc Aviation"]}
+                      size="sm"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Semester</label>
@@ -914,32 +907,27 @@ export default function TimetablePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Course / Subject</label>
-                  <select
+                  <SearchableSelect
+                    label="Course / Subject"
                     value={editingSlot.courseId}
-                    onChange={(e) => setEditingSlot({ ...editingSlot, courseId: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {courses.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name} ({c.code})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setEditingSlot({ ...editingSlot, courseId: val })}
+                    options={courses.map((c) => ({
+                      value: c.id,
+                      label: `${c.name} (${c.code})`,
+                    }))}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="grid grid-cols-3 gap-2.5">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Day</label>
-                    <select
+                    <SearchableSelect
+                      label="Day"
                       value={editingSlot.dayOfWeek}
-                      onChange={(e) => setEditingSlot({ ...editingSlot, dayOfWeek: e.target.value })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                    >
-                      {DAYS_OF_WEEK.map((d) => (
-                        <option key={d} value={d}>{d}</option>
-                      ))}
-                    </select>
+                      onChange={(val) => setEditingSlot({ ...editingSlot, dayOfWeek: val })}
+                      options={DAYS_OF_WEEK}
+                      size="sm"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Start Time</label>
@@ -962,29 +950,23 @@ export default function TimetablePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Venue / Simulator Bay</label>
-                  <select
+                  <SearchableSelect
+                    label="Venue / Simulator Bay"
                     value={editingSlot.classroom}
-                    onChange={(e) => setEditingSlot({ ...editingSlot, classroom: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {VENUES.map((v) => (
-                      <option key={v} value={v}>{v}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setEditingSlot({ ...editingSlot, classroom: val })}
+                    options={VENUES}
+                    size="sm"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Assigned Instructor</label>
-                  <select
+                  <SearchableSelect
+                    label="Assigned Instructor"
                     value={editingSlot.instructor}
-                    onChange={(e) => setEditingSlot({ ...editingSlot, instructor: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {INSTRUCTORS.map((ins) => (
-                      <option key={ins} value={ins}>{ins}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setEditingSlot({ ...editingSlot, instructor: val })}
+                    options={INSTRUCTORS}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="pt-3 flex gap-2.5">
@@ -1029,17 +1011,13 @@ export default function TimetablePage() {
               <form onSubmit={handleAddSlot} className="space-y-3.5">
                 <div className="grid grid-cols-2 gap-3">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Program</label>
-                    <select
+                    <SearchableSelect
+                      label="Program"
                       value={newSlot.program}
-                      onChange={(e) => setNewSlot({ ...newSlot, program: e.target.value })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500"
-                    >
-                      <option value="BBA Aviation">BBA Aviation</option>
-                      <option value="Pilot Training">Pilot Training</option>
-                      <option value="Cabin Crew">Cabin Crew</option>
-                      <option value="BSc Aviation">BSc Aviation</option>
-                    </select>
+                      onChange={(val) => setNewSlot({ ...newSlot, program: val })}
+                      options={["BBA Aviation", "Pilot Training", "Cabin Crew", "BSc Aviation"]}
+                      size="sm"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Semester</label>
@@ -1055,32 +1033,27 @@ export default function TimetablePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Course / Subject</label>
-                  <select
+                  <SearchableSelect
+                    label="Course / Subject"
                     value={newSlot.courseId}
-                    onChange={(e) => setNewSlot({ ...newSlot, courseId: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {courses.map((c) => (
-                      <option key={c.id} value={c.id}>
-                        {c.name} ({c.code})
-                      </option>
-                    ))}
-                  </select>
+                    onChange={(val) => setNewSlot({ ...newSlot, courseId: val })}
+                    options={courses.map((c) => ({
+                      value: c.id,
+                      label: `${c.name} (${c.code})`,
+                    }))}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="grid grid-cols-3 gap-2.5">
                   <div>
-                    <label className="block text-xs font-semibold text-slate-700 mb-1">Day</label>
-                    <select
+                    <SearchableSelect
+                      label="Day"
                       value={newSlot.dayOfWeek}
-                      onChange={(e) => setNewSlot({ ...newSlot, dayOfWeek: e.target.value })}
-                      className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                    >
-                      {DAYS_OF_WEEK.map((d) => (
-                        <option key={d} value={d}>{d}</option>
-                      ))}
-                    </select>
+                      onChange={(val) => setNewSlot({ ...newSlot, dayOfWeek: val })}
+                      options={DAYS_OF_WEEK}
+                      size="sm"
+                    />
                   </div>
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 mb-1">Start Time</label>
@@ -1103,29 +1076,23 @@ export default function TimetablePage() {
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Venue / Simulator Bay</label>
-                  <select
+                  <SearchableSelect
+                    label="Venue / Simulator Bay"
                     value={newSlot.classroom}
-                    onChange={(e) => setNewSlot({ ...newSlot, classroom: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {VENUES.map((v) => (
-                      <option key={v} value={v}>{v}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setNewSlot({ ...newSlot, classroom: val })}
+                    options={VENUES}
+                    size="sm"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Assigned Instructor</label>
-                  <select
+                  <SearchableSelect
+                    label="Assigned Instructor"
                     value={newSlot.instructor}
-                    onChange={(e) => setNewSlot({ ...newSlot, instructor: e.target.value })}
-                    className="w-full border border-slate-200 rounded-lg p-2 text-xs bg-slate-50 focus:bg-white focus:outline-none focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 font-medium"
-                  >
-                    {INSTRUCTORS.map((ins) => (
-                      <option key={ins} value={ins}>{ins}</option>
-                    ))}
-                  </select>
+                    onChange={(val) => setNewSlot({ ...newSlot, instructor: val })}
+                    options={INSTRUCTORS}
+                    size="sm"
+                  />
                 </div>
 
                 <div className="pt-3 flex gap-2.5">

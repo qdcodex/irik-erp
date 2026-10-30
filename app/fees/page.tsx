@@ -219,18 +219,17 @@ export default function FeesPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">Fee Type</label>
-                  <select
-                    name="feeType"
+                  <SearchableSelect
+                    label="Fee Type"
                     value={formData.feeType}
-                    onChange={handleChange}
-                    className="w-full p-2 text-xs border border-slate-200 rounded-lg bg-slate-50"
-                  >
-                    <option value="Tuition">Tuition Fee</option>
-                    <option value="Flight Training">Flight Simulator / Aircraft Hours</option>
-                    <option value="Hostel & Mess">Hostel & Accommodation</option>
-                    <option value="Examination">DGCA Exam Fee</option>
-                  </select>
+                    onChange={(val) => setFormData({ ...formData, feeType: val })}
+                    options={[
+                      { value: "Tuition", label: "Tuition Fee" },
+                      { value: "Flight Training", label: "Flight Simulator / Aircraft Hours" },
+                      { value: "Hostel & Mess", label: "Hostel & Accommodation" },
+                      { value: "Examination", label: "DGCA Exam Fee" },
+                    ]}
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-700 mb-1">Amount (₹)</label>
