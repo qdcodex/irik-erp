@@ -59,6 +59,8 @@ const COUNSELORS = [
 export default function AdmissionsPage() {
   const { user } = useAuth();
   const isAdmin = user?.role === "admin";
+  const isStaff = user?.role === "staff";
+  const canManage = isAdmin || isStaff;
 
   const [activeTab, setActiveTab] = useState<"roster" | "new_application" | "dgca_auditor" | "outreach">("roster");
   const [admissions, setAdmissions] = useState<Admission[]>(store.getAdmissions());
@@ -132,10 +134,10 @@ export default function AdmissionsPage() {
     setTimeout(() => setToastMessage(null), 4000);
   };
 
-  // Submit New Application (Admin Only)
+  // Submit New Application (Admin & Staff)
   const handleSubmitApplication = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!isAdmin) return;
+    if (!canManage) return;
 
     const created = store.addAdmission({
       applicantName: formData.applicantName,
@@ -383,10 +385,10 @@ export default function AdmissionsPage() {
                   <Plane className="w-3.5 h-3.5" />
                   DGCA Cadre Admissions & CRM
                 </span>
-                {isAdmin ? (
+                {canManage ? (
                   <span className="bg-emerald-500/20 text-emerald-300 text-xs px-2.5 py-1 rounded-md font-medium border border-emerald-500/30 flex items-center gap-1.5">
                     <BadgeCheck className="w-3.5 h-3.5 text-emerald-400" />
-                    Admin Access
+                    Admissions Officer Access
                   </span>
                 ) : (
                   <span className="bg-slate-700/60 text-slate-300 text-xs px-2.5 py-1 rounded-md font-medium border border-slate-600/40 flex items-center gap-1.5">
@@ -416,7 +418,7 @@ export default function AdmissionsPage() {
                 <Users className="w-3.5 h-3.5" />
                 <span>Applications ({totalCount})</span>
               </button>
-              {isAdmin && (
+              {canManage && (
                 <button
                   onClick={() => setActiveTab("new_application")}
                   className={`px-3.5 py-2 rounded-lg text-xs font-semibold transition-all flex items-center gap-1.5 ${

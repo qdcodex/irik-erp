@@ -6,10 +6,53 @@ import { useEffect, useState } from "react";
 import Sidebar from "./Sidebar";
 import MobileBottomNav from "./MobileBottomNav";
 import NotificationCenter from "./NotificationCenter";
-import { ShieldCheck, Plane, Menu, User } from "lucide-react";
+import Link from "next/link";
+import { UserRole } from "@/lib/types";
+import { ShieldCheck, Plane, Menu, User, ShieldAlert, Lock, ArrowLeft } from "lucide-react";
 
 type AppShellProps = {
   children: React.ReactNode;
+};
+
+const ROLE_DEFAULT_PAGES: Record<UserRole, string> = {
+  admin: "/",
+  staff: "/staff",
+  faculty: "/instructor-portal",
+  student: "/student-portal",
+  parent: "/parent-portal",
+};
+
+const ROUTE_PERMISSIONS: Record<string, UserRole[]> = {
+  "/": ["admin"],
+  "/analytics": ["admin", "staff"],
+  "/student-portal": ["student", "admin"],
+  "/parent-portal": ["parent", "admin"],
+  "/instructor-portal": ["faculty", "admin"],
+  "/staff": ["staff", "admin"],
+  "/admissions": ["admin", "staff"],
+  "/students": ["admin", "faculty", "staff"],
+  "/timetable": ["admin", "faculty", "student", "parent"],
+  "/attendance": ["admin", "faculty", "staff", "student", "parent"],
+  "/courses": ["admin", "faculty"],
+  "/course-management": ["admin"],
+  "/enrollments": ["admin"],
+  "/assets": ["admin", "staff", "faculty"],
+  "/faculty": ["admin"],
+  "/hr-payroll": ["admin", "staff"],
+  "/visitor-gate": ["admin", "staff"],
+  "/fees": ["admin", "staff", "student", "parent"],
+  "/finance": ["admin"],
+  "/lms": ["admin", "faculty", "student"],
+  "/evaluations": ["admin", "faculty", "student"],
+  "/id-cards": ["admin", "staff", "student", "faculty"],
+  "/library": ["admin", "staff", "faculty", "student"],
+  "/hostel": ["admin", "staff", "student"],
+  "/feedback": ["admin", "student", "parent", "faculty", "staff"],
+  "/e-signature": ["admin", "student", "parent", "staff"],
+  "/alumni": ["admin", "staff", "faculty", "student"],
+  "/notifications": ["admin", "faculty", "staff", "student", "parent"],
+  "/roles-permissions": ["admin"],
+  "/settings": ["admin"],
 };
 
 export default function AppShell({ children }: AppShellProps) {
@@ -29,8 +72,15 @@ export default function AppShell({ children }: AppShellProps) {
       return;
     }
 
+    // Redirect non-admin users from root "/" to their specific portal
+    if (isAuthenticated && user && pathname === "/" && user.role !== "admin") {
+      const targetPortal = ROLE_DEFAULT_PAGES[user.role] || "/";
+      router.replace(targetPortal);
+      return;
+    }
+
     setIsReady(true);
-  }, [isLoading, isAuthenticated, router, isPublicPage]);
+  }, [isLoading, isAuthenticated, user, pathname, router, isPublicPage]);
 
   // For login or public pages, render children without the sidebar shell
   if (isPublicPage) {
@@ -48,6 +98,10 @@ export default function AppShell({ children }: AppShellProps) {
       </div>
     );
   }
+
+  // Check route-level permissions
+  const allowedRoles = ROUTE_PERMISSIONS[pathname];
+  const isAuthorized = !allowedRoles || (user && allowedRoles.includes(user.role));
 
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden font-sans text-slate-800">
@@ -118,9 +172,37 @@ export default function AppShell({ children }: AppShellProps) {
           </div>
         </header>
 
-        {/* Dynamic Main Body - Scrollable area padded for Mobile Bottom Nav */}
+        {/* Dynamic Main Body - Scrollable area */}
         <main className="flex-1 overflow-y-auto p-4 sm:p-6 pb-24 md:pb-6 scrollbar-thin scrollbar-thumb-slate-200 scrollbar-track-transparent">
-          {children}
+          {isAuthorized ? (
+            children
+          ) : (
+            <div className="min-h-[70vh] flex items-center justify-center p-4">
+              <div className="bg-white rounded-2xl border border-slate-200/90 shadow-lg p-8 max-w-md text-center">
+                <div className="w-14 h-14 rounded-2xl bg-amber-50 text-amber-600 border border-amber-200 flex items-center justify-center mx-auto mb-4 shadow-xs">
+                  <ShieldAlert className="w-7 h-7" />
+                </div>
+                <span className="text-[10px] font-bold uppercase tracking-wider text-amber-700 bg-amber-100/60 px-2.5 py-0.5 rounded-full border border-amber-200">
+                  Clearance Restricted
+                </span>
+                <h3 className="text-xl font-extrabold text-slate-900 mt-2 tracking-tight">
+                  Access Denied
+                </h3>
+                <p className="text-xs text-slate-500 mt-2 leading-relaxed">
+                  This flight institute module requires administrative clearance. Your account role (<strong className="capitalize text-slate-800">{user?.role}</strong>) is not authorized to access this resource.
+                </p>
+                <div className="mt-6 flex items-center justify-center gap-3">
+                  <Link
+                    href={user ? ROLE_DEFAULT_PAGES[user.role] || "/" : "/login"}
+                    className="inline-flex items-center gap-2 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold rounded-xl transition shadow-sm"
+                  >
+                    <ArrowLeft className="w-3.5 h-3.5" />
+                    <span>Return to My Portal</span>
+                  </Link>
+                </div>
+              </div>
+            </div>
+          )}
         </main>
       </div>
 

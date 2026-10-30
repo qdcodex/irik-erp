@@ -137,7 +137,7 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
         items: [
           { href: "/assets", label: "Fleet & Compliance", icon: Compass, badge: "DGCA", roles: ["admin", "staff", "faculty"] },
           { href: "/faculty", label: "Faculty Directory", icon: UserCheck, roles: ["admin"] },
-          { href: "/hr-payroll", label: "HR & Payroll", icon: Briefcase, roles: ["admin"] },
+          { href: "/hr-payroll", label: "HR & Payroll", icon: Briefcase, roles: ["admin", "staff"] },
           { href: "/visitor-gate", label: "Visitor & Gate Pass", icon: KeyRound, roles: ["admin", "staff"] },
         ],
       },
@@ -165,11 +165,11 @@ export default function Sidebar({ mobileOpen = false, onMobileClose }: SidebarPr
         icon: Building2,
         items: [
           { href: "/id-cards", label: "ID Card Generator", icon: IdCard, roles: ["admin", "staff", "student", "faculty"] },
-          { href: "/library", label: "Aviation Library", icon: Library, roles: ["admin", "student", "faculty"] },
+          { href: "/library", label: "Aviation Library", icon: Library, roles: ["admin", "staff", "faculty", "student"] },
           { href: "/hostel", label: "Hostel Management", icon: Building2, roles: ["admin", "staff", "student"] },
           { href: "/feedback", label: "Feedback & Tickets", icon: MessageSquare, roles: ["admin", "student", "parent", "faculty", "staff"] },
           { href: "/e-signature", label: "Document E-Sign", icon: FileSignature, roles: ["admin", "student", "parent", "staff"] },
-          { href: "/alumni", label: "Alumni & Placement", icon: Award, roles: ["admin", "faculty", "student"] },
+          { href: "/alumni", label: "Alumni & Placement", icon: Award, roles: ["admin", "staff", "faculty", "student"] },
         ],
       },
       {
